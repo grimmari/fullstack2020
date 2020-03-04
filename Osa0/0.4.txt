@@ -1,0 +1,21 @@
+selain->palvelin: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note
+
+note over selain:
+lähetetään pyyntö palvelimelle osoitteeseen /new_note
+
+end note
+
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/notes
+note over palvelin:
+saadaan vastaus palvelimelta
+
+end note
+
+palvelin-->selain: main.css
+
+palvelin
+-->selain: HTTP GET https://fullstack-exampleapp.herokuapp.com/data.json
+
+note over palvelin:
+Vastaanotetaan pyynnön palauttama uusi Json data 
+end note
