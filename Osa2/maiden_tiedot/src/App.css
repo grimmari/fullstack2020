@@ -1,0 +1,23 @@
+p {
+  margin:10px ;
+  
+}
+.filter{
+  padding-bottom: 10px;
+}
+.list{
+  padding: 2px;
+}
+button {
+  margin-left: 5px;
+  padding: 1px 5px;
+  background-color: rgba(0, 139, 186, 0.267);
+  font-size: 1.2em;
+  border-radius: 8px;
+  transition-duration: 0.4s;
+}
+
+button:hover {
+  background-color: #4CAF50; /* Green */
+  color: white;
+}
