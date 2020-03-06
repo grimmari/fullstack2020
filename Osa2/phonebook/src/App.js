@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import './App.css';
 import Persons from './components/Persons'
 import Filter from './components/Filter'
@@ -8,12 +9,22 @@ import PersonForm from './components/PersonForm'
 
 
 const App = (props) => {
-  
-  const [persons, setPersons] = useState(props.personList)
+
+  const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
 
+  useEffect(() => {
+    console.log('effect')
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('promise fulfilled')
+        setPersons(response.data)
+      })
+  }, [])
+  console.log('render', persons.length, 'notes')
 
   const personToShow = filter.length === 0
     ? persons
@@ -68,8 +79,8 @@ const App = (props) => {
         newNumber={newNumber}
       />
       <h2>Numbers</h2>
-      <Persons persons={personToShow}/>
-      
+      <Persons persons={personToShow} />
+
     </div>
   )
 
