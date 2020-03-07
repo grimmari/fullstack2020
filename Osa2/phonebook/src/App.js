@@ -4,6 +4,7 @@ import './App.css';
 import Persons from './components/Persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
+import personService from './services/persons'
 
 
 
@@ -17,11 +18,10 @@ const App = (props) => {
 
   useEffect(() => {
     console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        setPersons(response.data)
+    personService
+      .getAll()
+      .then(initialNotes => {
+        setPersons(initialNotes)
       })
   }, [])
   console.log('render', persons.length, 'notes')
@@ -37,18 +37,45 @@ const App = (props) => {
 
     console.log(result)
     if (result) {
-      alert(`${result.name} on jo listassa`);
+      if (window.confirm(`${result.name} is allready added on phonebook, replace the number ${result.number} 
+      with new one (${newNumber})?`)) {
+        const updatePerson = ({ ...result, number: newNumber })
+        personService
+        .replace(result.id,updatePerson)
+        .then(updateToPerson => {
+            setPersons(persons.map(p => p.name === newName ? updateToPerson : p))
+          })}
+
+
+
     } else {
       const personObject = {
         name: newName,
-        number: newNumber,
-        id: persons.length + 1,
+        number: newNumber
+
       }
-      setPersons(persons.concat(personObject))
+      personService
+        .create(personObject)
+        .then(retunedPerson => {
+          console.log(retunedPerson)
+          setPersons(persons.concat(retunedPerson))
+        })
 
     }
     setNewName('')
     setNewNumber('')
+  }
+  const deleteClickHandle = id => {
+
+    const person = persons.find(p => p.id === id)
+    console.log('Button clicked ' + person.name)
+    if (window.confirm(`Are you sure that you want to delete ${person.name}?`)) {
+      personService
+        .remove(id)
+        .then(() => {
+          setPersons(persons.filter(p => p.id !== id))
+        })
+    }
   }
 
   const handleNameChange = (event) => {
@@ -79,7 +106,7 @@ const App = (props) => {
         newNumber={newNumber}
       />
       <h2>Numbers</h2>
-      <Persons persons={personToShow} />
+      <Persons persons={personToShow} deleteClickHandle={deleteClickHandle} />
 
     </div>
   )

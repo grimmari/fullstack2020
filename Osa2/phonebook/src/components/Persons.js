@@ -1,13 +1,16 @@
 import React from 'react'
 
 const Persons = (props) => {
-    console.log(props)
+    
+    
     return (
         props.persons.map(p =>
             <div key={p.name}>
               {p.name} {p.number}
+              <button onClick={()=>props.deleteClickHandle(p.id)}>Delete</button>
               </div>
     ))
+    
 }
 
 
