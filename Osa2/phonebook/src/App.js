@@ -7,6 +7,8 @@ import personService from './services/persons'
 const Notification = (props) => {
   if (props.message === null) {
     return null
+
+    
   }
   if (props.type === 'info') {
     return (
