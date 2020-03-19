@@ -1,9 +1,0 @@
-POST http://localhost:3003/api/blogs
-Content-Type: application/json
-
-{
-    "title": "postman is good tool for testing REST api's",
-    "author":"Ari Grimm",
-    "url":"http://grimmsw.net",
-    "likes":1
-}
